@@ -14,6 +14,22 @@
 / {
 	model = "Wandboard i.MX6 Dual Lite Board";
 	compatible = "wand,imx6dl-wandboard", "fsl,imx6dl";
+
+	leds {
+		compatible = "gpio-leds";
+
+		sysled {
+			label = "sysled";
+			gpios = <&gpio4 5 0>;
+			linux,default-trigger = "none";
+		};
+
+		usb1led {
+			label = "usb1led";
+			gpios = <&gpio6 7 0>;
+			linux,default-trigger = "none";
+		};
+	};
 };
 
 
@@ -24,16 +40,9 @@
 	hog {
 		pinctrl_hog_2: hoggrp-2 {
 			fsl,pins = <
-				/* MAX17135 */
-				MX6QDL_PAD_EIM_A17__GPIO2_IO21 0x80000000
-				MX6QDL_PAD_EIM_D17__GPIO3_IO17 0x80000000
-				MX6QDL_PAD_EIM_D20__GPIO3_IO20 0x80000000
-				MX6QDL_PAD_EIM_A18__GPIO2_IO20 0x80000000
-				MX6QDL_PAD_EIM_OE__GPIO2_IO25 0x80000000
-				/* elan touch */
-				MX6QDL_PAD_EIM_A20__GPIO2_IO18 0x80000000
-				MX6QDL_PAD_EIM_DA8__GPIO3_IO08 0x80000000
-				MX6QDL_PAD_EIM_D28__GPIO3_IO28 0x170b0
+				MX6QDL_PAD_GPIO_19__GPIO4_IO05 0x80000000 /* sys led */
+				MX6QDL_PAD_NANDF_CLE__GPIO6_IO07 0x80000000 /* usb1 led */
+	
 			>;
 		};
 	};

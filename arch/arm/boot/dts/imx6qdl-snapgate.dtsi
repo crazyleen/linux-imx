@@ -10,15 +10,25 @@
 		compatible = "gpio-leds";
 
 		debug-led {
-			label = "Heartbeat";
-			gpios = <&gpio7 13 0>;
-			linux,default-trigger = "heartbeat";
+			label = "sys0";
+			gpios = <&gpio7 13 1>;
+			linux,default-trigger = "mmc0";
 		};
 
 		debug2-led {
-			label = "MMC";
-			gpios = <&gpio1 7 1>;
-			linux,default-trigger = "mmc";
+			label = "sys1";
+			gpios = <&gpio7 8 1>;
+			linux,default-trigger = "gpio";
+		};
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		def_reset {
+			label = "Default Reset Button";
+			gpios = <&gpio6 16 1>;
+			linux,code = <116>; /* KEY_POWER */
+			gpio-key,wakeup;
 		};
 	};
 
@@ -31,12 +41,14 @@
 	hog {
 		pinctrl_hog_1: hoggrp-1 {
 			fsl,pins = <
-				MX6QDL_PAD_EIM_D16__GPIO3_IO16 0x1f059 /* SD3 CD*/
-				MX6QDL_PAD_GPIO_18__GPIO7_IO13 0X80000000 /* SYS LED D15 */
-				MX6QDL_PAD_GPIO_7__GPIO1_IO07 0X80000000 /* SYS LED D17 */
-				MX6QDL_PAD_KEY_COL2__GPIO4_IO10 0X80000000 /* wdt */
-				MX6QDL_PAD_NANDF_CS2__GPIO6_IO15 0X80000000 /* lan8720 reset */
-				MX6QDL_PAD_NANDF_CS1__GPIO6_IO14 0X80000000 /* lan8720 int */
+				MX6QDL_PAD_EIM_D16__GPIO3_IO16 		0X80000000 	/* SD3 CD */
+				MX6QDL_PAD_GPIO_18__GPIO7_IO13 		0X80000000  	/* SYS LED D15 */
+				MX6QDL_PAD_SD3_RST__GPIO7_IO08 		0X80000000 	/* SYS LED D17 */
+				MX6QDL_PAD_KEY_COL2__GPIO4_IO10 	0X80000000 	/* wdt */
+				MX6QDL_PAD_NANDF_CS2__GPIO6_IO15 	0X80000000 	/* lan8720 reset */
+				MX6QDL_PAD_NANDF_CS1__GPIO6_IO14	0X80000000	/* lan8720 int */
+				MX6QDL_PAD_KEY_ROW1__GPIO4_IO09	 	0X80000000 	/* m25p128 spi cs */
+				MX6QDL_PAD_NANDF_CS3__GPIO6_IO16	0X80000000 	/* default reset gpio key */
 			>;
 		};
 	};
@@ -74,7 +86,24 @@
 	pinctrl-0 = <&pinctrl_enet_4>;
 	phy-mode = "rmii";
 	phy-reset-gpios = <&gpio6 15 0>;
+	#phy-int-gpios = <&gpio6 14 0>;
 	status = "okay";
+};
+
+&ecspi1 {
+	fsl,spi-num-chipselects = <1>;
+	cs-gpios = <&gpio4 9 0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ecspi1_2>;
+	status = "okay";
+
+	flash: m25p128@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "st,m25p128";
+		spi-max-frequency = <20000000>;
+		reg = <0>;
+	};
 };
 
 &uart1 {
@@ -96,12 +125,13 @@
         status = "okay";
 };
 
-
 &usdhc3 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc3_2>;
+	cd-gpios = <&gpio3 16 0>;
+	keep-power-in-suspend;
+	enable-sdio-wakeup;
 	status = "okay";
 };
-
 
 
