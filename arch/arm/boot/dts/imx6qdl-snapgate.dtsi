@@ -86,6 +86,7 @@
 	pinctrl-0 = <&pinctrl_enet_4>;
 	phy-mode = "rmii";
 	phy-reset-gpios = <&gpio6 15 0>;
+	phy-reset-duration = <1>;
 	#phy-int-gpios = <&gpio6 14 0>;
 	status = "okay";
 };
