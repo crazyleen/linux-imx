@@ -12,8 +12,8 @@
 #include "imx6qdl-snapgate.dtsi"
 
 / {
-	model = "Wandboard i.MX6 Dual Lite Board";
-	compatible = "wand,imx6dl-wandboard", "fsl,imx6dl";
+	model = "SnapGate i.MX6 Dual Lite Board";
+	compatible = "dlrc,imx6dl-snapgate", "fsl,imx6dl";
 
 	leds {
 		compatible = "gpio-leds";
@@ -21,7 +21,7 @@
 		sysled {
 			label = "sysled";
 			gpios = <&gpio4 5 0>;
-			linux,default-trigger = "none";
+			linux,default-trigger = "heartbeat";
 		};
 
 		usb1led {
