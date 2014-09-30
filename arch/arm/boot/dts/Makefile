@@ -119,6 +119,8 @@ dtb-$(CONFIG_ARCH_MXC) += \
 	imx6dl-sabreauto-gpmi-weim.dtb \
 	imx6dl-sabresd.dtb \
 	imx6dl-snapgate.dtb \
+	imx6dl-snapgate-v1.dtb \
+	imx6q-snapgate.dtb \
 	imx6dl-sabresd-hdcp.dtb \
 	imx6dl-sabresd-ldo.dtb \
 	imx6dl-wandboard.dtb \

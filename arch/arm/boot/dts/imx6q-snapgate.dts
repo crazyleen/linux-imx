@@ -1,0 +1,50 @@
+/*
+ * Copyright (C) 2013 Freescale Semiconductor, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include "imx6q.dtsi"
+#include "imx6qdl-snapgate.dtsi"
+
+/ {
+	model = "SnapGate i.MX6 Quad Board";
+	compatible = "dlrc,imx6q-snapgate", "fsl,imx6q";
+
+	leds {
+		compatible = "gpio-leds";
+
+		sysled {
+			label = "sysled";
+			gpios = <&gpio4 5 0>;
+			linux,default-trigger = "heartbeat";
+		};
+
+		usb1led {
+			label = "usb1led";
+			gpios = <&gpio6 7 0>;
+			linux,default-trigger = "none";
+		};
+	};
+};
+
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hog_1>, <&pinctrl_hog_2>;
+
+	hog {
+		pinctrl_hog_2: hoggrp-2 {
+			fsl,pins = <
+				MX6QDL_PAD_GPIO_19__GPIO4_IO05 0x80000000 /* sys led */
+				MX6QDL_PAD_NANDF_CLE__GPIO6_IO07 0x80000000 /* usb1 led */
+	
+			>;
+		};
+	};
+};
+
